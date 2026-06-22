@@ -1,0 +1,332 @@
+# FPGA-Based Traffic Light Controller Using Verilog HDL
+
+## Abstract
+
+Traffic signal control is an important application of digital systems used to regulate vehicle movement at road intersections. This project implements a Traffic Light Controller using Verilog HDL and Finite State Machine (FSM) design methodology. The controller manages traffic flow between North-South and East-West roads through a predefined sequence of traffic light states. The design is verified through simulation using EDA Playground and waveform analysis. The project demonstrates key VLSI concepts including FSM design, sequential logic, combinational logic, counters, and digital verification.
+
+---
+
+# 1. Introduction
+
+Traffic lights are essential components of modern transportation systems. They help regulate vehicle movement, reduce accidents, and improve traffic efficiency. Traditionally, traffic light systems are controlled using embedded controllers and digital logic circuits.
+
+In this project, a Traffic Light Controller is designed using Verilog HDL and implemented as a Finite State Machine (FSM). The controller cycles through multiple states representing different traffic light conditions for two intersecting roads.
+
+The project serves as a practical example of FPGA-based digital system design and demonstrates how hardware description languages can be used to develop real-world control systems.
+
+---
+
+# 2. Project Objective
+
+The main objectives of this project are:
+
+* Design a Traffic Light Controller using Verilog HDL.
+* Implement the controller using FSM methodology.
+* Control traffic signals for two roads.
+* Verify state transitions through simulation.
+* Demonstrate FPGA implementation workflow.
+* Gain hands-on experience in RTL design and verification.
+
+---
+
+# 3. Problem Statement
+
+At a road intersection, traffic from multiple directions must be controlled safely and efficiently. If both directions are allowed to move simultaneously, accidents may occur.
+
+The objective is to develop a digital controller that:
+
+* Allows one direction to move while stopping the other.
+* Provides warning through yellow signals.
+* Cycles continuously through predefined traffic states.
+* Maintains safe traffic operation.
+
+---
+
+# 4. System Architecture
+
+The Traffic Light Controller consists of the following functional blocks:
+
+1. Clock Input
+2. Timer Counter
+3. Finite State Machine
+4. Output Logic
+5. Traffic Signal Outputs
+
+Architecture Flow:
+
+Clock Input
+↓
+Timer Counter
+↓
+FSM Controller
+↓
+Output Logic
+↓
+Traffic Light Signals
+
+---
+
+# 5. Digital Design Concepts Used
+
+## FPGA
+
+An FPGA (Field Programmable Gate Array) is a programmable hardware device used to implement digital circuits. It allows designers to create custom logic without manufacturing an ASIC.
+
+## Verilog HDL
+
+Verilog is a Hardware Description Language used to describe digital systems at the Register Transfer Level (RTL).
+
+## Finite State Machine (FSM)
+
+FSM is a mathematical model used to represent systems that operate through a sequence of states and transitions.
+
+## Sequential Logic
+
+Sequential logic stores system state information using flip-flops and changes state based on clock events.
+
+## Combinational Logic
+
+Combinational logic generates outputs based on current inputs and current FSM state.
+
+## Timer Counter
+
+A counter is used to maintain each traffic signal state for a specified duration.
+
+## Testbench
+
+The testbench provides simulation stimulus and verifies design functionality.
+
+## Waveform Analysis
+
+Waveforms help verify correct timing and state transitions.
+
+---
+
+# 6. FSM Design
+
+The Traffic Light Controller uses four states.
+
+## State S0
+
+North-South Road : Green
+
+East-West Road : Red
+
+Duration : 10 Clock Cycles
+
+## State S1
+
+North-South Road : Yellow
+
+East-West Road : Red
+
+Duration : 3 Clock Cycles
+
+## State S2
+
+North-South Road : Red
+
+East-West Road : Green
+
+Duration : 10 Clock Cycles
+
+## State S3
+
+North-South Road : Red
+
+East-West Road : Yellow
+
+Duration : 3 Clock Cycles
+
+FSM Sequence:
+
+S0 → S1 → S2 → S3 → S0
+
+---
+
+# 7. State Transition Table
+
+| Current State | Next State |
+| ------------- | ---------- |
+| S0            | S1         |
+| S1            | S2         |
+| S2            | S3         |
+| S3            | S0         |
+
+---
+
+# 8. Output Table
+
+| State | NS Red | NS Yellow | NS Green | EW Red | EW Yellow | EW Green |
+| ----- | ------ | --------- | -------- | ------ | --------- | -------- |
+| S0    | 0      | 0         | 1        | 1      | 0         | 0        |
+| S1    | 0      | 1         | 0        | 1      | 0         | 0        |
+| S2    | 1      | 0         | 0        | 0      | 0         | 1        |
+| S3    | 1      | 0         | 0        | 0      | 1         | 0        |
+
+---
+
+# 9. RTL Design Description
+
+The RTL design consists of:
+
+* State Register
+* Timer Counter
+* State Transition Logic
+* Output Logic
+
+The state register stores the current traffic signal state.
+
+The timer counter determines how long the FSM remains in a particular state.
+
+The transition logic moves the FSM to the next state once the timer reaches its predefined value.
+
+The output logic generates traffic signal outputs based on the current state.
+
+---
+
+# 10. Verilog Module Description
+
+The Traffic Light Controller module receives:
+
+Inputs:
+
+* Clock
+* Reset
+
+Outputs:
+
+* North-South Red
+* North-South Yellow
+* North-South Green
+* East-West Red
+* East-West Yellow
+* East-West Green
+
+The FSM transitions between four states and drives traffic light outputs accordingly.
+
+---
+
+# 11. Testbench Description
+
+The testbench performs the following functions:
+
+* Generates system clock
+* Applies reset signal
+* Runs simulation for multiple state cycles
+* Monitors output signals
+* Generates waveform data
+
+The testbench verifies:
+
+* Correct reset operation
+* Proper state transitions
+* Correct output generation
+* Continuous FSM operation
+
+---
+
+# 12. Simulation Results
+
+The design was simulated using EDA Playground.
+
+The waveform confirms:
+
+* FSM starts in State S0 after reset.
+* State transitions occur correctly.
+* Traffic outputs match state definitions.
+* No illegal traffic combinations occur.
+* Green signals are never active simultaneously for both directions.
+
+Observed Sequence:
+
+S0 → S1 → S2 → S3 → S0
+
+The waveform validates successful operation of the Traffic Light Controller.
+
+---
+
+# 13. FPGA Implementation Methodology
+
+Although the project was verified through simulation, the design is FPGA-ready.
+
+Implementation Flow:
+
+1. Create Vivado Project
+2. Add RTL Files
+3. Add Constraints File
+4. Run Synthesis
+5. Run Implementation
+6. Generate Bitstream
+7. Program FPGA Board
+
+LED Mapping:
+
+North-South:
+
+* Green LED
+* Yellow LED
+* Red LED
+
+East-West:
+
+* Green LED
+* Yellow LED
+* Red LED
+
+The LEDs visually represent traffic signal states.
+
+---
+
+# 14. Advantages of the Project
+
+* Simple and easy to understand
+* Demonstrates FSM concepts
+* Suitable for FPGA implementation
+* Industry-relevant digital design example
+* Strong portfolio project for students
+* Helps learn verification methodology
+
+---
+
+# 15. Applications
+
+* Traffic Signal Controllers
+* Smart City Infrastructure
+* Industrial Automation
+* Embedded Controllers
+* Transportation Systems
+* FPGA-Based Control Systems
+
+---
+
+# 16. Future Enhancements
+
+The project can be extended with:
+
+* Pedestrian Crossing Support
+* Emergency Vehicle Priority
+* Sensor-Based Adaptive Timing
+* IoT Connectivity
+* Camera-Based Traffic Monitoring
+* Smart Intersection Management
+
+These enhancements increase the project's complexity and industry relevance.
+
+---
+
+# 17. Conclusion
+
+This project successfully demonstrates the design and verification of an FPGA-Based Traffic Light Controller using Verilog HDL. The controller was implemented using Finite State Machine methodology and verified through simulation. The design accurately controls traffic signal sequencing while maintaining safe traffic operation.
+
+The project provides practical exposure to RTL design, digital logic, FSM implementation, verification techniques, and FPGA development workflows. It serves as an excellent beginner-to-intermediate VLSI project and a valuable addition to a student's GitHub portfolio and technical resume.
+
+---
+
+# References
+
+1. Verilog HDL Digital Design Fundamentals
+2. FPGA Design Methodology
+3. Finite State Machine Design Techniques
+4. Digital System Design Principles
+5. Traffic Signal Control System Concepts
